@@ -1,0 +1,37 @@
+# 忽略虚拟环境
+myvenv/
+venv/
+env/
+ENV/
+
+# 忽略 Python 编译产物
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+*.dll
+*.dylib
+*.o
+*.a
+*.png
+*.json
+*.jsonl
+
+# 其它
+command.py
+hfd.sh
+evaluation_report
+
+
+# 忽略构建文件
+dist/
+build/
+*.egg-info/
+
+
+# 忽略数据集和模型
+gpt2-chinese-cluecorpussmall/
+multilingual-toxic-xlm-roberta/
+train_1M_CN/
+train_0.5M_CN/
