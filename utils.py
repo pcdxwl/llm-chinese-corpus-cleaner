@@ -13,6 +13,8 @@ import pandas as pd
 import json
 import os
 from scipy.stats import gaussian_kde
+import plotly.express as px
+
 
 
 
@@ -313,6 +315,57 @@ class qualityEval():
         plt.close()
 
 
+    def plot_funnel(self,x='values', y='steps', title="Data Filtering Funnel Chart"):
+        """
+        构建漏斗数据
+        """
+        funnel_data = {
+            "steps":[],
+            "values":[]
+        }
+        # 储存上一轮的value
+        tmp = self.stats['total']
+
+        for key,value in self.stats.items():
+            funnel_data['steps'].append(key)
+            if key == 'total':
+                funnel_data['values'].append(value)
+            
+            elif key == 'cleaned': 
+                funnel_data['values'].append(value)
+                break
+            else:
+                funnel_data['values'].append(tmp-value)
+                tmp -= value
+
+        # 使用 Plotly 绘制漏斗图
+        fig = px.funnel(
+            funnel_data,
+            x=x,           # 动态字段名，默认 'values'
+            y=y,           # 动态字段名，默认 'steps'
+            title=title,
+            labels={x: "quantity", y: "steps"},
+            template="plotly_white"
+        )
+
+        # 设置文字显示在内部
+        fig.update_traces(textposition='inside')
+        fig.update_layout(font=dict(size=14), title_font_size=18, showlegend=False)
+
+        # fig.show()
+        fig.write_html("chart.html") 
+        print("✅ 图表已保存为 chart.html，可用浏览器打开")
+
+        # # 保存为图片（需要 kaleido）
+        # try:
+        #     fig.write_image(f"{title}.png", scale=2, width=800, height=500)
+        #     print(f"✅ 图表已保存为: {title}.png")
+        # except Exception as e:
+        #     print(f"❌ 无法保存图片，请安装: pip install kaleido\n错误: {e}")
+
+        # return fig
+
+
     def save_samples_by_indices(self, target, input_file, output_file, threshold=None):
         """
         抽样验证：支持点阈值和区间阈值
@@ -410,10 +463,3 @@ def save_json(data, save_path):
 
     else:
         raise TypeError(f"data 必须是 list 或 dict，但得到: {type(data)}")
-    
-if __name__ == '__main__':
-    # 从 json 文件加载 stats
-    stats_path = './stats.json'
-    with open(stats_path, 'r', encoding='utf-8') as f:
-        stats = json.load(f)
-    print(stats)        

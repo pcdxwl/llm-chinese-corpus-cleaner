@@ -15,12 +15,12 @@ def data_pipeline(input_path: str, output_path: str,detail_path,stats_path):
     # 清洗结果统计
     stats = {
         "total": 0,
-        "cleaned": 0,
         "too_short": 0,
         "duplicates": 0,
         "toxic": 0,
         "low_quality": 0,
-        "errors": 0
+        "errors": 0,
+        "cleaned": 0
     }
 
     detail = []
@@ -137,7 +137,12 @@ if __name__ == '__main__':
     output_path = "./train_0.5M_CN/Belle_open_source_0.5M_clean.jsonl"
     detail_path = './detail.json'
     stats_path = './stats.json'
-    # # 数据处理
-    detail,stats = data_pipeline(input_path, output_path,detail_path,stats_path)
-    # # 结果验证
-    result_check(detail_path,stats_path,input_path)
+    # # # 数据处理
+    # detail,stats = data_pipeline(input_path, output_path,detail_path,stats_path)
+    # # # 结果验证
+    # # result_check(detail_path,stats_path,input_path)
+
+
+    
+    quality_eval = qualityEval(max_toxic,max_ppl,detail_path,stats_path)
+    quality_eval.plot_funnel()

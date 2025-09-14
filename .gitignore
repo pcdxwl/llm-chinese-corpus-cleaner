@@ -17,6 +17,7 @@ __pycache__/
 *.png
 *.json
 *.jsonl
+*.html
 
 # 其它
 command.py
