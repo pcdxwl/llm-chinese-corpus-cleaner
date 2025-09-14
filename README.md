@@ -32,6 +32,7 @@
         ↓ 
     存储高质量数据集
 - 数据集输入进pipeline，经历上述处理流程，过滤不符合要求的数据。
+  <img width="2428" height="1178" alt="image" src="https://github.com/user-attachments/assets/3f405ec5-bf80-4fbc-b5c3-68869c0580fe" />
 
 ### 质量评估
 - 以困惑度PPL检测为例
@@ -41,7 +42,7 @@
 - 2.1 分布特征。
     - 下图为PPL的直方图，呈右偏分布，表明多数样本易于建模，少数样本因异常或复杂性导致困惑度较高。 
     - PPL分布在超过110后呈现显著长尾，反映高困惑样本的集中出现。原阈值150可能过于宽松，应下调至110以截断低质量尾部，提升数据集整体质量。
-    ![PPL分布直方图](./PPL_before_pic.png)
+<img width="1484" height="881" alt="ppl_before_pic" src="https://github.com/user-attachments/assets/f8b5c1bc-df50-4dec-9a62-bf78929ac195" />
 - 2.2 人工抽样
     - 阈值附近（PPL=145~155）：
         - 该区域样本主要包括三类：多语言混合、数学计算和语言不通顺。前两类并非低质，可经特殊处理识别并保留；仅第三类应予过滤。
